@@ -1,0 +1,22 @@
+service: aws-spring-cloud-function-city
+frameworkVersion: '3.5.0'
+
+provider:
+  name: aws
+  runtime: java8
+  timeout: 20
+
+package:
+  artifact: target/serverless.simple-1.0.0-SNAPSHOT-aws.jar
+
+functions:
+  request:
+    handler: org.pedrograciabernal.serverless.simple.function.AwsLambdaHandler
+    environment:
+      FUNCTION_NAME: city
+      RESOURCE_URL: "https://weatherdbi.herokuapp.com/"
+      RESOURCE_CONTEXT: "data/weather/"
+    events:
+      - httpApi:
+          path: /city
+          method: get
